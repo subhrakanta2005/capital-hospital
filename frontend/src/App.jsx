@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -40,6 +41,7 @@ export default function App() {
           <ProtectedRoute roles={['pharmacist']}><PharmacyDashboard /></ProtectedRoute>
         } />
       </Routes>
+      <Footer />
     </div>
   )
 }
