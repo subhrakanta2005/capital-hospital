@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/client'
 import { useAuth } from '../context/AuthContext'
+import GoogleSignInButton from '../components/GoogleSignInButton'
 
 export default function Register() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, loginWithGoogle } = useAuth()
   const [form, setForm] = useState({
     name: '', email: '', password: '', phone_number: '',
     date_of_birth: '', gender: '', blood_group: '',
@@ -32,10 +33,30 @@ export default function Register() {
     }
   }
 
+  async function handleGoogle(credential) {
+    setError('')
+    try {
+      await loginWithGoogle(credential)
+      navigate('/patient')
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Google sign-up failed')
+    }
+  }
+
   return (
     <div className="max-w-md mx-auto mt-12 mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-      <h2 className="text-2xl font-bold mb-6 text-center">Patient Registration</h2>
+      <h2 className="text-2xl font-bold mb-1 text-center">Patient Registration</h2>
+      <p className="text-sm text-gray-400 text-center mb-6">Capital Hospital, Bhubaneswar — Unit-6</p>
       {error && <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>}
+
+      <GoogleSignInButton onCredential={handleGoogle} />
+
+      <div className="flex items-center gap-3 my-5">
+        <div className="h-px bg-gray-200 flex-1" />
+        <span className="text-xs text-gray-400">or register with email</span>
+        <div className="h-px bg-gray-200 flex-1" />
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-3">
         <input required placeholder="Full name" value={form.name}
           onChange={(e) => update('name', e.target.value)}
@@ -73,6 +94,10 @@ export default function Register() {
           {loading ? 'Creating account...' : 'Create Account'}
         </button>
       </form>
+
+      <p className="text-xs text-gray-400 text-center mt-4">
+        Prefer OTP instead? <a href="/login" className="text-brand-600">Sign in with your phone number</a> — it creates your account automatically.
+      </p>
     </div>
   )
 }
