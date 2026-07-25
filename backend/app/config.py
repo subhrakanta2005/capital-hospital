@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     admin_email: str = "admin@capitalhospital.local"
     admin_password: str = "ChangeMe123!"
 
+    google_client_id: str = ""
+    otp_expire_minutes: int = 10
+
     class Config:
         env_file = ".env"
 
