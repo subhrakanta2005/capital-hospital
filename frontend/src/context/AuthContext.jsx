@@ -22,6 +22,28 @@ export function AuthProvider({ children }) {
     return res.data.user
   }
 
+  function applySession(data) {
+    localStorage.setItem('token', data.access_token)
+    localStorage.setItem('user', JSON.stringify(data.user))
+    setUser(data.user)
+    return data.user
+  }
+
+  async function requestOtp(phone_number) {
+    const res = await api.post('/auth/request-otp', { phone_number })
+    return res.data
+  }
+
+  async function verifyOtp(phone_number, otp, name) {
+    const res = await api.post('/auth/verify-otp', { phone_number, otp, name })
+    return applySession(res.data)
+  }
+
+  async function loginWithGoogle(credential) {
+    const res = await api.post('/auth/google', { credential })
+    return applySession(res.data)
+  }
+
   function logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -29,7 +51,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, setUser }}>
+    <AuthContext.Provider value={{ user, login, requestOtp, verifyOtp, loginWithGoogle, logout, setUser }}>
       {children}
     </AuthContext.Provider>
   )
