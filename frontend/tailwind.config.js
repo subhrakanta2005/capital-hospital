@@ -4,13 +4,19 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Inspired by Kalinga temple architecture — laterite red & gold
         brand: {
-          50: "#eff6ff",
-          100: "#dbeafe",
-          500: "#2563eb",
-          600: "#1d4ed8",
-          700: "#1e40af",
-          900: "#1e3a8a",
+          50: "#fdf3f0",
+          100: "#fbe4dc",
+          500: "#a83a2c",
+          600: "#8f2f22",
+          700: "#7a2620",
+          900: "#4a1512",
+        },
+        gold: {
+          400: "#e0b04f",
+          500: "#cc9838",
+          600: "#a97c2a",
         },
       },
     },
