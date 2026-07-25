@@ -60,3 +60,22 @@ class ProfileUpdate(BaseModel):
 
 class AvailabilityUpdate(BaseModel):
     availability: List[TimeSlotBlock]
+
+
+class OtpRequest(BaseModel):
+    phone_number: str
+
+
+class OtpVerify(BaseModel):
+    phone_number: str
+    otp: str
+    name: Optional[str] = None  # used only if this phone has no account yet
+
+
+class GoogleAuthRequest(BaseModel):
+    credential: str  # the ID token returned by Google Identity Services
+
+
+class PhoneLoginRequest(BaseModel):
+    phone_number: str
+    password: str
